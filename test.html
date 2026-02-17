@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>test</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7;color:#1a1a2e;background:#fafbfc;max-width:720px;margin:0 auto;padding:2rem 1.5rem}
+a{color:#4a90d9;text-decoration:none}a:hover{text-decoration:underline}
+h1{font-size:1.8rem;margin-bottom:0.5rem}
+h2{font-size:1.4rem;margin:1.5rem 0 0.5rem}
+h3{font-size:1.15rem;margin:1.2rem 0 0.4rem}
+p{margin:0.8rem 0}
+img{max-width:100%;height:auto;border-radius:6px}
+pre{background:#f0f2f5;padding:1rem;border-radius:6px;overflow-x:auto;margin:1rem 0}
+code{background:#f0f2f5;padding:0.15em 0.4em;border-radius:3px;font-size:0.9em}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #4a90d9;padding-left:1rem;color:#555;margin:1rem 0}
+ul,ol{padding-left:1.5rem;margin:0.8rem 0}
+hr{border:none;border-top:1px solid #e8ecf1;margin:1.5rem 0}
+.nav{margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid #e8ecf1}
+.post-list{list-style:none;padding:0}
+.post-list li{padding:1rem 0;border-bottom:1px solid #f0f2f5}
+.post-list .date{color:#9ca3af;font-size:0.85rem}
+.post-list .title{font-size:1.1rem;font-weight:600}
+.post-list .desc{color:#6b7280;font-size:0.9rem;margin-top:0.25rem}
+</style>
+</head>
+<body>
+<div class="nav"><a href="index.html">&larr; Home</a></div>
+<h1>test</h1>
+<h1>MarkFlow — AI 기반 로컬 퍼스트 블로깅 플랫폼</h1>
+<blockquote>
+<p><strong>Product Requirements Document &#x26; Task Breakdown</strong>
+Version 1.0 | 2026.02 | 작성: Lee</p>
+</blockquote>
+<hr>
+<h2>1. 제품 개요</h2>
+<h3>1.1 비전</h3>
+<p>마크다운의 간결함, AI의 지능, 원클릭 배포의 편리함을 결합한 데스크톱 네이티브 블로깅 도구. 기존 노션/워드프레스가 해결하지 못한 **'개인화된 전문 퍼블리싱'**을 로컬 퍼스트 아키텍처로 실현한다.</p>
+<h3>1.2 핵심 가치 제안</h3>
+<ul>
+<li><strong>로컬 퍼스트</strong>: 오프라인 완전 동작, <code>.md</code> 파일 기반 데이터 주권 보장</li>
+<li><strong>AI 편집 파트너</strong>: 맥락 인식 교정, SEO 체크리스트, 스타일 가이드 학습</li>
+<li><strong>원클릭 배포</strong>: Git 기반 CD 파이프라인으로 Vercel/Netlify 자동 배포</li>
+<li><strong>디자인 자유도</strong>: 디자인 토큰 + 눈누 폰트로 완전한 레이아웃 커스터마이징</li>
+</ul>
+<h3>1.3 타겟 사용자</h3>
+<ul>
+<li><strong>1차</strong>: 기술 블로거 및 개발자 (마크다운에 익숙, 자동화 선호)</li>
+<li><strong>2차</strong>: 전문 콘텐츠 크리에이터 (브랜딩과 SEO에 민감)</li>
+<li><strong>3차</strong>: 지식 노동자 (노션에서 이탈 고려 중인 사용자)</li>
+</ul>
+<h3>1.4 기술 스택 요약</h3>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프레임워크</td>
+<td>Electron + React (Vite)</td>
+</tr>
+<tr>
+<td>에디터 코어</td>
+<td>CodeMirror 6 (마크다운 모드)</td>
+</tr>
+<tr>
+<td>스타일링</td>
+<td>Tailwind CSS + CSS Variables (디자인 토큰)</td>
+</tr>
+<tr>
+<td>로컬 DB</td>
+<td>SQLite (better-sqlite3) + .md 파일 시스템</td>
+</tr>
+<tr>
+<td>AI 연동</td>
+<td>OpenAI / Claude API (어댑터 패턴)</td>
+</tr>
+<tr>
+<td>배포 파이프라인</td>
+<td>isomorphic-git + Vercel/Netlify CLI</td>
+</tr>
+<tr>
+<td>SSG 엔진</td>
+<td>Astro 또는 Next.js (static export)</td>
+</tr>
+<tr>
+<td>패키지 관리</td>
+<td>pnpm + Turborepo 모노레포</td>
+</tr>
+</tbody>
+</table>
+<h3>1.5 경쟁 제품 대비 포지셔닝</h3>
+<table>
+<thead>
+<tr>
+<th>비교 항목</th>
+<th>Notion</th>
+<th>Ghost</th>
+<th>WordPress</th>
+<th>Framer</th>
+<th><strong>MarkFlow</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>오프라인 지원</td>
+<td>△</td>
+<td>✕</td>
+<td>✕</td>
+<td>✕</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>마크다운 네이티브</td>
+<td>✕</td>
+<td>△</td>
+<td>△</td>
+<td>✕</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>AI 편집 보조</td>
+<td>△</td>
+<td>✕</td>
+<td>플러그인</td>
+<td>✕</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>디자인 커스터마이징</td>
+<td>△</td>
+<td>△</td>
+<td>✔</td>
+<td>✔</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>원클릭 배포</td>
+<td>✕</td>
+<td>✔</td>
+<td>✕</td>
+<td>✔</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>한국어 폰트 생태계</td>
+<td>✕</td>
+<td>✕</td>
+<td>플러그인</td>
+<td>✕</td>
+<td><strong>✔</strong></td>
+</tr>
+<tr>
+<td>데이터 주권</td>
+<td>✕</td>
+<td>△</td>
+<td>✔</td>
+<td>✕</td>
+<td><strong>✔</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>2. 기능 명세</h2>
+<h3>Phase 1: MVP Core Editor — 8주</h3>
+<p>핵심 에디팅 경험과 로컬 파일 관리에 집중. AI 없이도 독립적으로 사용 가능한 마크다운 에디터를 완성한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>기능</th>
+<th>상세</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-01</td>
+<td>마크다운 에디터</td>
+<td>CodeMirror 6 기반, 문법 하이라이팅, 자동 완성, 단축키 지원</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-02</td>
+<td>실시간 미리보기</td>
+<td>Split-pane 레이아웃, 스크롤 동기화, 라이브 렌더링</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-03</td>
+<td>파일 탐색기</td>
+<td>로컬 .md 파일 트리 뷰, 드래그앤드롭, 검색</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-04</td>
+<td>프론트매터 편집기</td>
+<td>YAML 프론트매터 GUI (제목, 태그, 카테고리, 날짜)</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-05</td>
+<td>이미지 삽입</td>
+<td>드래그앤드롭 이미지 삽입, 로컬 저장, 상대경로 자동 생성</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-06</td>
+<td>테마 기본</td>
+<td>라이트/다크 모드 전환, 기본 타이포그래피 설정</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-07</td>
+<td>자동 저장</td>
+<td>디바운스 기반 자동 저장, 변경 감지 인디케이터</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-08</td>
+<td>단축키 시스템</td>
+<td>커스터마이저블 키바인딩 (VS Code 스타일)</td>
+<td>P1</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 2: AI &#x26; Design System — 6주</h3>
+<p>AI 편집 보조와 디자인 토큰 시스템을 도입하여 핵심 차별점을 확립한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>기능</th>
+<th>상세</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-09</td>
+<td>AI 대화창</td>
+<td>Split-pane 우측에 AI 채팅 인터페이스, 컨텍스트 전달</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-10</td>
+<td>AI 텍스트 교정</td>
+<td>선택 영역 맥락 기반 문법/비문 교정, 인라인 제안</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-11</td>
+<td>AI SEO 체크리스트</td>
+<td>제목 매력도, 메타 설명, Alt 텍스트, 태그 추천 자동 점검</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-12</td>
+<td>디자인 토큰 엔진</td>
+<td>참조/시스템/컴포넌트 3계층 토큰, JSON 기반 관리</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-13</td>
+<td>테마 에디터 GUI</td>
+<td>비주얼 토큰 편집기, 실시간 CSS 변수 컴파일, 미리보기 반영</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-14</td>
+<td>눈누 폰트 통합</td>
+<td>API/CDN 연동, 폰트 브라우저, @font-face 동적 등록</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-15</td>
+<td>이미지 자동 최적화</td>
+<td>WebP/AVIF 변환, 리사이즈, EXIF 제거, <code>&#x3C;picture></code> 태그 생성</td>
+<td>P1</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 3: 배포 &#x26; 버전 관리 — 6주</h3>
+<p>원클릭 배포 파이프라인과 비개발자 친화적 버전 관리 시스템을 구축한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>기능</th>
+<th>상세</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-16</td>
+<td>Git 통합</td>
+<td>isomorphic-git으로 커밋/푸시, GitHub 연동, SSH 키 관리</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-17</td>
+<td>원클릭 배포</td>
+<td>Vercel/Netlify CLI 연동, 빌드 트리거, 배포 상태 알림</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-18</td>
+<td>SSG 빌드</td>
+<td>Astro 기반 정적 사이트 생성, 마크다운→HTML 변환</td>
+<td>P0</td>
+</tr>
+<tr>
+<td>F-19</td>
+<td>비주얼 버전 관리</td>
+<td>타임라인 UI, diff 뷰어, 체크포인트 저장/복원</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-20</td>
+<td>자동 백업</td>
+<td>주기적 로컬 스냅샷, 배포 이력과 로컬 초안 동기화 표시</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-21</td>
+<td>커스텀 도메인</td>
+<td>사용자 도메인 연결 가이드, DNS 설정 도우미</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 4: 고도화 — 6주+</h3>
+<p>멀티 워크스페이스, 수익화, AEO 등 확장 기능으로 제품 경쟁력을 극대화한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>기능</th>
+<th>상세</th>
+<th>우선순위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-22</td>
+<td>AI 스타일 학습</td>
+<td>사용자 과거 글 분석, 개인 브랜드 보이스 유지</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-23</td>
+<td>AEO 최적화</td>
+<td>FAQ 블록 자동 생성, Schema Markup 자동 삽입</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>F-24</td>
+<td>멀티 워크스페이스</td>
+<td>블로그별 독립 토큰 세트/AI 프로필, 프로젝트 전환</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>F-25</td>
+<td>수익화 도구</td>
+<td>유료 구독 폼, 멤버십 콘텐츠 게이팅, 결제 연동</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>F-26</td>
+<td>웹 버전 준비</td>
+<td>모노레포 분리, 어댑터 패턴 데이터 계층, IndexedDB 지원</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>F-27</td>
+<td>표절/AI 탐지</td>
+<td>기존 문서 유사도 체크, AI 생성물 비율 분석</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>3. 아키텍처 설계</h2>
+<h3>3.1 모노레포 구조</h3>
+<pre><code>markflow/
+├── apps/
+│   ├── desktop/          # Electron 메인/렌더러 (Vite + React)
+│   └── web/              # (Phase 4) 웹 앱 셸
+├── packages/
+│   ├── editor-core/      # CodeMirror 6 에디터 래퍼, 마크다운 파싱
+│   ├── ui/               # 공유 UI 컴포넌트 라이브러리
+│   ├── design-tokens/    # 토큰 정의, CSS 변수 컴파일러 (Style Dictionary)
+│   ├── ai-client/        # AI API 어댑터 (OpenAI/Claude 교체 가능)
+│   └── deploy/           # Git 연동, SSG 빌드, 호스팅 CLI 래퍼
+├── turbo.json
+├── pnpm-workspace.yaml
+└── package.json
+</code></pre>
+<h3>3.2 Electron 보안 체크리스트</h3>
+<ul>
+<li><strong>contextIsolation: true</strong> — 렌더러에서 Node.js 직접 접근 차단</li>
+<li><strong>nodeIntegration: false</strong> — 웹 콘텐츠의 시스템 접근 방지</li>
+<li><strong>preload 스크립트</strong> — <code>contextBridge.exposeInMainWorld</code>로 최소 API만 노출</li>
+<li><strong>CSP 헤더 설정</strong> — 인라인 스크립트 차단, 허용 도메인 화이트리스트</li>
+<li><strong>BrowserView 사용</strong> — 외부 콘텐츠 렌더링 시 프로세스 격리</li>
+</ul>
+<h3>3.3 데이터 흐름</h3>
+<pre><code>사용자 편집
+  → CodeMirror 상태
+  → .md 파일 저장 (로컬)
+  → SQLite 메타데이터 인덱싱
+  → Git 커밋
+  → 배포 트리거
+  → Astro SSG 빌드
+  → CDN 배포 (Vercel/Netlify)
+</code></pre>
+<p>모든 원본 데이터는 로컬 <code>.md</code> 파일에 존재하며, SQLite는 검색/필터용 인덱스 역할만 수행한다.</p>
+<h3>3.4 디자인 토큰 계층</h3>
+<pre><code class="language-json">{
+  "ref": {
+    "color": { "blue-500": "#007bff", "gray-100": "#f8f9fa" }
+  },
+  "sys": {
+    "color": { "primary": "{ref.color.blue-500}", "surface": "{ref.color.gray-100}" }
+  },
+  "comp": {
+    "sidebar": { "bg": "{sys.color.surface}" },
+    "editor": { "text": "{sys.color.on-surface}" }
+  }
+}
+</code></pre>
+<p>사용자가 GUI에서 토큰 값을 수정하면 실시간으로 CSS 변수(<code>--primary-color</code> 등)로 컴파일되어 미리보기에 반영된다.</p>
+<hr>
+<h2>4. 작업 리스트 (Task Breakdown)</h2>
+<p>1인 개발 기준이며, 병렬 작업이 어려운 의존 관계를 고려했다.</p>
+<h3>Phase 1: MVP Core Editor (8주, 40 영업일)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>태스크</th>
+<th>설명</th>
+<th>일수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>프로젝트 초기 세팅</td>
+<td>Turborepo + pnpm 모노레포 구성, ESLint/Prettier, CI 기본 셋업</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Electron 앱 스캐폴딩</td>
+<td>Vite + React + Electron 통합, 보안 설정 (preload, CSP), 핫리로드</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CodeMirror 에디터 통합</td>
+<td>마크다운 모드, 문법 하이라이팅, 기본 단축키, 에디터 상태 관리</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4</td>
+<td>마크다운 파서 연동</td>
+<td>remark/rehype 파이프라인, GFM 지원, 코드 블록 하이라이팅</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Split-pane 레이아웃</td>
+<td>에디터/미리보기 분할 화면, 리사이즈, 스크롤 싱크</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6</td>
+<td>파일 시스템 연동</td>
+<td>Node.js fs로 .md CRUD, 파일 와처(chokidar), 자동 저장</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>파일 탐색기 UI</td>
+<td>트리뷰 컴포넌트, 디렉토리 재귀 탐색, 파일 검색</td>
+<td>4</td>
+</tr>
+<tr>
+<td>8</td>
+<td>프론트매터 편집기</td>
+<td>YAML 파싱(gray-matter), GUI 폼, 에디터 동기화</td>
+<td>3</td>
+</tr>
+<tr>
+<td>9</td>
+<td>이미지 드래그앤드롭</td>
+<td>파일 드롭 핸들러, 로컬 assets 폴더 저장, 상대경로 삽입</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>기본 테마 시스템</td>
+<td>CSS 변수 기반 라이트/다크 모드, 폰트 사이즈 설정</td>
+<td>2</td>
+</tr>
+<tr>
+<td>11</td>
+<td>키바인딩 시스템</td>
+<td>커스터마이저블 단축키 매니저, 설정 저장/로드</td>
+<td>3</td>
+</tr>
+<tr>
+<td>12</td>
+<td>SQLite 메타데이터</td>
+<td>better-sqlite3 연동, 게시물 인덱싱, 태그/카테고리 검색</td>
+<td>3</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Phase 1 QA &#x26; 버그픽스</td>
+<td>통합 테스트, E2E 테스트(Playwright), 성능 프로파일링</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 2: AI &#x26; Design System (6주, 30 영업일)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>태스크</th>
+<th>설명</th>
+<th>일수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td>AI 클라이언트 어댑터</td>
+<td>OpenAI/Claude API 추상화, 스트리밍 응답, 에러 핸들링, 토큰 카운팅</td>
+<td>3</td>
+</tr>
+<tr>
+<td>15</td>
+<td>AI 대화창 UI</td>
+<td>채팅 인터페이스, 메시지 히스토리, 마크다운 렌더링, 컨텍스트 주입</td>
+<td>4</td>
+</tr>
+<tr>
+<td>16</td>
+<td>인라인 AI 교정</td>
+<td>텍스트 선택 → AI 호출 → diff 표시 → 승인/거부 UX</td>
+<td>5</td>
+</tr>
+<tr>
+<td>17</td>
+<td>AI SEO 체크리스트</td>
+<td>제목 분석, 메타 설명 생성, Alt 텍스트 검사, 태그 추천 로직</td>
+<td>4</td>
+</tr>
+<tr>
+<td>18</td>
+<td>디자인 토큰 엔진</td>
+<td>JSON 토큰 스키마, 3계층 파싱, CSS 변수 컴파일러 (Style Dictionary)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>19</td>
+<td>테마 에디터 GUI</td>
+<td>색상 피커, 타이포그래피 셀렉터, 간격 조절, 실시간 미리보기 반영</td>
+<td>4</td>
+</tr>
+<tr>
+<td>20</td>
+<td>눈누 폰트 통합</td>
+<td>CDN/로컬 폰트 로더, 폰트 브라우저 UI, @font-face 동적 등록</td>
+<td>3</td>
+</tr>
+<tr>
+<td>21</td>
+<td>이미지 최적화 파이프라인</td>
+<td>sharp 기반 WebP/AVIF 변환, 리사이즈, EXIF 제거, <code>&#x3C;picture></code> 생성</td>
+<td>3</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Phase 2 QA &#x26; 통합</td>
+<td>AI 응답 품질 테스트, 토큰 시스템 엣지케이스, 폰트 라이선스 검증</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 3: 배포 &#x26; 버전 관리 (6주, 30 영업일)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>태스크</th>
+<th>설명</th>
+<th>일수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>23</td>
+<td>isomorphic-git 연동</td>
+<td>Git init/add/commit/push, GitHub OAuth, SSH 키 생성/관리</td>
+<td>4</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Astro SSG 통합</td>
+<td>마크다운→HTML 빌드, 디자인 토큰 적용, 레이아웃 템플릿</td>
+<td>5</td>
+</tr>
+<tr>
+<td>25</td>
+<td>배포 파이프라인</td>
+<td>Vercel/Netlify CLI 래퍼, 빌드→배포 자동화, 상태 모니터링</td>
+<td>4</td>
+</tr>
+<tr>
+<td>26</td>
+<td>원클릭 배포 UI</td>
+<td>배포 버튼, 진행 상황 표시, 배포 URL 링크, 에러 핸들링</td>
+<td>3</td>
+</tr>
+<tr>
+<td>27</td>
+<td>비주얼 타임라인</td>
+<td>Git 히스토리 시각화, 커밋 메시지 자동 생성, 체크포인트 UI</td>
+<td>4</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Diff 뷰어</td>
+<td>이전/현재 버전 비교, 라인 단위 하이라이팅, 롤백 기능</td>
+<td>3</td>
+</tr>
+<tr>
+<td>29</td>
+<td>자동 백업 시스템</td>
+<td>주기적 스냅샷, 배포 버전 vs 로컬 초안 동기화 상태 표시</td>
+<td>3</td>
+</tr>
+<tr>
+<td>30</td>
+<td>커스텀 도메인 가이드</td>
+<td>DNS 설정 안내 UI, Vercel/Netlify 도메인 API 연동</td>
+<td>2</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Phase 3 QA &#x26; 통합</td>
+<td>배포 E2E 테스트, Git 충돌 시나리오, 롤백 검증</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h3>Phase 4: 고도화 (6주+)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>태스크</th>
+<th>설명</th>
+<th>일수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32</td>
+<td>AI 스타일 학습</td>
+<td>사용자 글 임베딩, 스타일 프로필 생성, 교정 시 스타일 반영</td>
+<td>5</td>
+</tr>
+<tr>
+<td>33</td>
+<td>AEO 엔진</td>
+<td>FAQ 블록 자동 추출, JSON-LD Schema Markup 생성기</td>
+<td>4</td>
+</tr>
+<tr>
+<td>34</td>
+<td>멀티 워크스페이스</td>
+<td>워크스페이스 매니저, 독립 토큰/AI 프로필 전환</td>
+<td>4</td>
+</tr>
+<tr>
+<td>35</td>
+<td>수익화 도구</td>
+<td>구독 폼 컴포넌트, 콘텐츠 게이팅 로직, Stripe 연동</td>
+<td>5</td>
+</tr>
+<tr>
+<td>36</td>
+<td>웹 버전 데이터 계층</td>
+<td>어댑터 패턴 구현, IndexedDB/Cloud API 스위칭, CRDT 검토</td>
+<td>5</td>
+</tr>
+<tr>
+<td>37</td>
+<td>표절/AI 탐지</td>
+<td>텍스트 유사도 API 연동, AI 생성 비율 분석 UI</td>
+<td>3</td>
+</tr>
+<tr>
+<td>38</td>
+<td>성능 최적화</td>
+<td>번들 분석, 코드 스플리팅, 메모리 프로파일링, 콜드 스타트 개선</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. 마일스톤 &#x26; 일정</h2>
+<table>
+<thead>
+<tr>
+<th>마일스톤</th>
+<th>목표</th>
+<th>완료 기준</th>
+<th>예상 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>M1: Alpha</strong></td>
+<td>마크다운 에디팅 코어 완성</td>
+<td>.md 파일 읽기/쓰기/미리보기가 안정적으로 동작</td>
+<td>Week 8</td>
+</tr>
+<tr>
+<td><strong>M2: Beta</strong></td>
+<td>AI 편집 + 디자인 시스템</td>
+<td>AI 교정/SEO 체크 동작, 디자인 토큰으로 테마 변경 가능</td>
+<td>Week 14</td>
+</tr>
+<tr>
+<td><strong>M3: RC</strong></td>
+<td>배포 파이프라인 완성</td>
+<td>원클릭으로 정적 사이트 빌드 + 배포 성공</td>
+<td>Week 20</td>
+</tr>
+<tr>
+<td><strong>M4: v1.0</strong></td>
+<td>공개 릴리스</td>
+<td>고도화 기능 포함, 공개 베타 피드백 반영 완료</td>
+<td>Week 26+</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. 리스크 &#x26; 대응</h2>
+<table>
+<thead>
+<tr>
+<th>리스크</th>
+<th>영향</th>
+<th>대응 방안</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Electron 번들 사이즈 (100MB+)</td>
+<td>높음</td>
+<td>electron-builder 최적화, 불필요 로케일 제거, ASAR 압축</td>
+</tr>
+<tr>
+<td>AI API 비용 증가</td>
+<td>중간</td>
+<td>로컬 LLM 대안 (Ollama) 어댑터 준비, 토큰 사용량 대시보드</td>
+</tr>
+<tr>
+<td>눈누 폰트 라이선스 이슈</td>
+<td>중간</td>
+<td>폰트별 라이선스 메타데이터 DB 구축, 사용자에게 명시적 안내</td>
+</tr>
+<tr>
+<td>1인 개발 병목</td>
+<td>높음</td>
+<td>Phase 1 MVP에 집중, Phase 4는 사용자 피드백 기반 우선순위 조정</td>
+</tr>
+<tr>
+<td>SSG 빌드 호환성</td>
+<td>낮음</td>
+<td>Astro의 마크다운 지원이 가장 안정적, 폴백으로 Next.js static</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. 성공 지표</h2>
+<ul>
+<li><strong>MVP 완성도</strong>: Phase 1 완료 후 자체 블로그를 본 도구로 운영 가능한가</li>
+<li><strong>배포 성공률</strong>: 원클릭 배포 성공률 95% 이상</li>
+<li><strong>에디터 반응 속도</strong>: 키 입력 → 미리보기 반영 100ms 이내</li>
+<li><strong>AI 교정 품질</strong>: 맞춤법 교정 정확도 90% 이상, SEO 체크리스트 커버리지 80%</li>
+<li><strong>콜드 스타트</strong>: 앱 실행 → 에디터 사용 가능 3초 이내</li>
+<li><strong>사용자 피드백</strong>: 공개 베타 후 GitHub Star 100개, 주간 활성 사용자 50명 (3개월 내)</li>
+</ul>
+
+</body>
+</html>
