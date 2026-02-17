@@ -1,0 +1,44 @@
+{
+  "darkMode": "dark",
+  "colors": {
+    "primary": "#2563eb",
+    "onPrimary": "#ffffff",
+    "secondary": "#4b5563",
+    "onSecondary": "#ffffff",
+    "surface": "#ffffff",
+    "onSurface": "#111827",
+    "background": "#f9fafb",
+    "onBackground": "#111827",
+    "error": "#ef4444",
+    "success": "#22c55e",
+    "warning": "#eab308",
+    "outline": "#d1d5db"
+  },
+  "typography": {
+    "fontFamily": "'SUIT', -apple-system, BlinkMacSystemFont, system-ui, sans-serif",
+    "fontSize": "16",
+    "lineHeight": "1.5",
+    "fontWeight": "500",
+    "blogFont": "Georgia, Cambria, 'Times New Roman', Times, serif",
+    "blogHeadingFont": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+  },
+  "spacing": {
+    "xs": "0.25",
+    "sm": "0.5",
+    "md": "1",
+    "lg": "1.5",
+    "xl": "2",
+    "xxl": "3"
+  },
+  "radius": {
+    "sm": "0.25",
+    "md": "0.375",
+    "lg": "0.5",
+    "full": "9999"
+  },
+  "shadows": {
+    "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    "md": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+    "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)"
+  }
+}
